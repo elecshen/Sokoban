@@ -1,0 +1,66 @@
+﻿<Page x:Class="Sokoban.GamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sokoban"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="GamePage">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Shapes.xaml"/>
+                <ResourceDictionary>
+                    <Style x:Key="GameButton" TargetType="Button">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Padding" Value="20,5"/>
+                    </Style>
+                    <Style x:Key="GameLable" TargetType="Label">
+                        <Setter Property="FontSize" Value="18"/>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Page.DataContext>
+        <local:VMGamePage/>
+    </Page.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Label FontSize="20" Content="Уровень "/>
+                <Label FontSize="20" Content="{Binding LevelName}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Label Content="Ходы: " Style="{StaticResource GameLable}"/>
+                <Label Content="{Binding CurrentTurnNumber}" Style="{StaticResource GameLable}"/>
+                <Label Content=" из " Style="{StaticResource GameLable}"/>
+                <Label Content="{Binding NumberOfTurns}" Style="{StaticResource GameLable}"/>
+            </StackPanel>
+            <Button Grid.Row="2" Style="{StaticResource GameButton}" Command="{Binding RevertTurnCommand}" IsEnabled="{Binding RevertIsEnable}" Content="Отменить ход"/>
+            <Button Grid.Row="3" Style="{StaticResource GameButton}" Command="{Binding NextTurnCommand}" IsEnabled="{Binding NextIsEnable}" Content="Следующий ход"/>
+            <Label Grid.Row="4" Style="{StaticResource GameLable}" Content="Игра окончена!" Visibility="{Binding GameEndVisibility}"/>
+            <Button Grid.Row="5" Style="{StaticResource GameButton}" Command="{Binding NextLevelCommand}" Content="Следующий уровень" Visibility="{Binding GameEndVisibility}"/>
+            <Button Grid.Row="7" Style="{StaticResource GameButton}" Command="{Binding SaveCommand}" Content="Сохранить"/>
+            <Button Grid.Row="8" Style="{StaticResource GameButton}" Command="{Binding ReturnToMenuCommand}" Content="В главное меню"/>
+        </Grid>
+        <Canvas Grid.Column="1" Name="GameField"/>
+    </Grid>
+</Page>
